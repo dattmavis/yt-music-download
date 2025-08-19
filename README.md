@@ -15,8 +15,8 @@ This tool is intended for **educational purposes** and for downloading content t
 
 ## Features
 
-- **Multiple Audio Formats**: FLAC, MP3 (various bitrates), OGG Vorbis, AAC
-- **High-Quality Audio**: Lossless FLAC support with best available quality
+- **Multiple Audio Formats**: M4A (AAC), Opus, MP3 (various bitrates) - prioritizing YouTube's native formats
+- **High-Quality Audio**: Native format preservation with best available quality
 - **Smart Metadata Extraction**: Automatically parses artist, title, and album information
 - **Thumbnail Embedding**: Downloads and embeds album artwork
 - **Playlist Support**: Download entire playlists or individual videos
@@ -73,13 +73,12 @@ python music.py
    - For YouTube Music playlists: Use the "Share" button and ensure the playlist is set to **Public** visibility
    - Accepts both `music.youtube.com` and `youtube.com` URLs
    - Single videos and full playlists are supported
-2. **Select Format**: Choose from 6 audio format options:
-   - FLAC (lossless) - Best quality, larger files
-   - MP3 320kbps - High quality, good balance
+2. **Select Format**: Choose from 5 audio format options:
+   - M4A (AAC) - YouTube's native format, best quality
+   - Opus - YouTube's native format, efficient compression
+   - MP3 320kbps - Universal compatibility, high quality
    - MP3 192kbps - Good quality, smaller files
-   - MP3 128kbps - Acceptable quality, smallest files
-   - OGG Vorbis - High quality, open source format
-   - AAC 256kbps - High quality, good compatibility
+   - MP3 128kbps - Basic quality, smallest files
 
 3. **Automatic Processing**: The tool will:
    - Download audio in your selected format
@@ -89,14 +88,13 @@ python music.py
 
 ## Supported Formats
 
-| Format | Quality | File Size | Compatibility |
-|--------|---------|-----------|---------------|
-| FLAC | Lossless | Large | Audiophile software |
-| MP3 320kbps | Very High | Medium-Large | Universal |
-| MP3 192kbps | High | Medium | Universal |
-| MP3 128kbps | Good | Small | Universal |
-| OGG Vorbis | Very High | Medium | Modern players |
-| AAC 256kbps | Very High | Medium | Apple ecosystem |
+| Format | Quality | File Size | Notes |
+|--------|---------|-----------|-------|
+| M4A (AAC) | Very High | Medium | YouTube's native format, no transcoding |
+| Opus | Very High | Small | YouTube's native format, excellent compression |
+| MP3 320kbps | Very High | Medium-Large | Universal compatibility |
+| MP3 192kbps | High | Medium | Good balance of quality/size |
+| MP3 128kbps | Good | Small | Smallest files, basic quality |
 
 ## Features in Detail
 
@@ -122,8 +120,9 @@ python music.py
 
 ```
 downloads/
-├── Artist - Song Title.flac
-├── Artist - Another Song.mp3
+├── Artist - Song Title.m4a
+├── Artist - Another Song.opus
+├── Artist - Third Song.mp3
 └── ...
 ```
 

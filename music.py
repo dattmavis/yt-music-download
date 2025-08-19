@@ -93,6 +93,8 @@ def embed_metadata(audio_path, metadata, thumbnail_path=None):
             embed_mp3_metadata(audio_path, metadata, thumbnail_path)
         elif file_ext in ['.ogg']:
             embed_ogg_metadata(audio_path, metadata, thumbnail_path)
+        elif file_ext == '.opus':
+            embed_opus_metadata(audio_path, metadata, thumbnail_path)
         elif file_ext in ['.m4a', '.mp4']:
             embed_mp4_metadata(audio_path, metadata, thumbnail_path)
         else:
@@ -185,6 +187,27 @@ def embed_ogg_metadata(audio_path, metadata, thumbnail_path=None):
     audio.save()
     print(Fore.GREEN + f"OGG metadata embedded: {metadata.get('artist', 'Unknown')} - {metadata.get('title', 'Unknown')}" + Style.RESET_ALL)
 
+def embed_opus_metadata(audio_path, metadata, thumbnail_path=None):
+    """Embeds metadata into Opus file."""
+    from mutagen.oggopus import OggOpus
+    audio = OggOpus(audio_path)
+    
+    if metadata.get('title'):
+        audio['TITLE'] = metadata['title']
+    if metadata.get('artist'):
+        audio['ARTIST'] = metadata['artist']
+    if metadata.get('album'):
+        audio['ALBUM'] = metadata['album']
+    if metadata.get('date'):
+        audio['DATE'] = metadata['date']
+    if metadata.get('genre'):
+        audio['GENRE'] = metadata['genre']
+    if metadata.get('comment'):
+        audio['COMMENT'] = metadata['comment']
+    
+    audio.save()
+    print(Fore.GREEN + f"Opus metadata embedded: {metadata.get('artist', 'Unknown')} - {metadata.get('title', 'Unknown')}" + Style.RESET_ALL)
+
 def embed_mp4_metadata(audio_path, metadata, thumbnail_path=None):
     """Embeds metadata into MP4/M4A file."""
     audio = MP4(audio_path)
@@ -225,12 +248,11 @@ def download_mp3(youtube_url, output_folder="downloads", format_choice="1"):
 
     # Configure audio format based on user choice
     format_configs = {
-        "1": {"codec": "flac", "quality": "0", "ext": "flac"},
-        "2": {"codec": "mp3", "quality": "320", "ext": "mp3"},
-        "3": {"codec": "mp3", "quality": "192", "ext": "mp3"},
-        "4": {"codec": "mp3", "quality": "128", "ext": "mp3"},
-        "5": {"codec": "vorbis", "quality": "5", "ext": "ogg"},
-        "6": {"codec": "aac", "quality": "256", "ext": "m4a"}
+        "1": {"codec": "m4a", "quality": "0", "ext": "m4a"},
+        "2": {"codec": "opus", "quality": "0", "ext": "opus"},
+        "3": {"codec": "mp3", "quality": "320", "ext": "mp3"},
+        "4": {"codec": "mp3", "quality": "192", "ext": "mp3"},
+        "5": {"codec": "mp3", "quality": "128", "ext": "mp3"}
     }
     
     config = format_configs.get(format_choice, format_configs["1"])
@@ -300,7 +322,7 @@ def process_existing_files(output_folder):
     print(Fore.YELLOW + "Processing existing audio files and thumbnails..." + Style.RESET_ALL)
 
     for file in os.listdir(output_folder):
-        if file.endswith((".flac", ".mp3", ".ogg", ".m4a", ".mp4")):
+        if file.endswith((".flac", ".mp3", ".ogg", ".opus", ".m4a", ".mp4")):
             title = os.path.splitext(file)[0]
             audio_path = os.path.join(output_folder, file)
             thumbnail_path = find_thumbnail(output_folder, title)
@@ -350,13 +372,12 @@ if __name__ == "__main__":
     url = input(Fore.BLUE + "Enter YouTube video or playlist URL: " + Style.RESET_ALL)
     
     print(Fore.CYAN + "\nSelect audio format:" + Style.RESET_ALL)
-    print(Fore.WHITE + "1. FLAC (lossless)")
-    print("2. MP3 (320kbps)")
-    print("3. MP3 (192kbps)")
-    print("4. MP3 (128kbps)")
-    print("5. OGG Vorbis (high quality)")
-    print("6. AAC (256kbps)" + Style.RESET_ALL)
+    print(Fore.WHITE + "1. M4A (AAC) - YouTube's native format, best quality")
+    print("2. Opus - YouTube's native format, efficient compression")
+    print("3. MP3 (320kbps) - Universal compatibility")
+    print("4. MP3 (192kbps) - Good quality, smaller files")
+    print("5. MP3 (128kbps) - Basic quality, smallest files" + Style.RESET_ALL)
     
-    format_choice = input(Fore.BLUE + "Enter your choice (1-6): " + Style.RESET_ALL).strip()
+    format_choice = input(Fore.BLUE + "Enter your choice (1-5): " + Style.RESET_ALL).strip()
     
     download_mp3(url, format_choice=format_choice)
