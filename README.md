@@ -2,7 +2,8 @@
 
 A Python-based tool for downloading and organizing audio content from YouTube with comprehensive metadata support and multiple audio format options.
 
-<img width="1667" height="245" alt="image" src="https://github.com/user-attachments/assets/fc326e45-a832-4f28-8adf-4533375644df" />
+<img width="1355" height="239" alt="image" src="https://github.com/user-attachments/assets/e58d4fc5-44eb-4032-9800-83e24bd4cd72" />
+
 
 ## ⚠️ Important Legal Notice
 
